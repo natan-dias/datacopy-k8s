@@ -1,0 +1,29 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: datacopy
+  namespace: $NAMESPACE
+spec:
+  template:
+    spec:
+      containers:
+      - command:
+        - bash
+        - -c
+        - |
+          (cd /mnt/old; tar -cf - .) | (cd /mnt/new; tar -xpf -)
+        name: datacopy
+        image: ubuntu
+        volumeMounts:
+        - mountPath: "/mnt/old"
+          name: old-pv
+        - mountPath: "/mnt/new"
+          name: new-pv
+      restartPolicy: Never
+      volumes:
+      - name: old-pv
+        persistentVolumeClaim:
+          claimName: $PVC-OLD-NAME
+      - name: new-pv
+        persistentVolumeClaim:
+          claimName: $PVC-NEW-NAME
