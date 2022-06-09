@@ -23,7 +23,7 @@ spec:
       volumes:
       - name: old-pv
         persistentVolumeClaim:
-          claimName: $PVC-OLD-NAME
+          claimName: $PVC_OLD_NAME
       - name: new-pv
         persistentVolumeClaim:
-          claimName: $PVC-NEW-NAME
+          claimName: $PVC_NEW_NAME
